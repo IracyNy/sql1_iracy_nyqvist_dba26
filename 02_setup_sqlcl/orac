@@ -11,6 +11,6 @@ if [[ -f "$file" ]]; then
 
     podman exec -i oracle-free sqlplus -s system/"$ORACLE_PWD@FREEPDB1" < "$file"
 else
-    podman exec -i oracle-free sqlplus -s system/"$ORACLE_PWD@FREEPDB1"
+    exec podman exec -it sqlcl sql system/"$ORACLE_PWD@oracle-free:1521/FREEPDB1"
 fi
 
