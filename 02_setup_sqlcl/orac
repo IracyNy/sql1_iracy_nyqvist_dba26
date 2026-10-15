@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+script_path="$(readlink -f "$BASH_SOURCE")"
+script_dir="$(dirname "$script_path")"
+
+source "${script_dir}/../.env"
+
+file="$1"
+
+if [[ -f "$file" ]]; then
+
+    podman exec -i oracle-free sqlplus -s system/"$ORACLE_PWD@FREEPDB1" < "$file"
+else
+    podman exec -i oracle-free sqlplus -s system/"$ORACLE_PWD@FREEPDB1"
+fi
+
