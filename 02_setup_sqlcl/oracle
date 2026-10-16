@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+SCRIPT_PATH="$(readlink -f "$BASH_SOURCE")"
+
+COMPOSE_DIR="$(dirname $SCRIPT_PATH)"
+
+case "$1" in 
+    start)
+        cd "$COMPOSE_DIR" 
+        podman compose up -d oracle-free 
+        echo "starting oracle26ai ...";;
+    stop)
+        podman stop sqlcl 2>/dev/null
+        podman rm -f sqlcl 2>/dev/null
+        cd "$COMPOSE_DIR"
+        podman-compose down 
+        echo "stopping oracle26ai" ;;
+    *)  
+        echo "usage: oracle start/end"
+esac
+
