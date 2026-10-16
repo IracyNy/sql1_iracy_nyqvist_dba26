@@ -5,11 +5,17 @@ script_dir="$(dirname "$script_path")"
 
 source "${script_dir}/../.env"
 
+
+sqlcl(){
+    podman exec -i sqlcl sql system/"$ORACLE_PWD"@//oracle-free:1521/FREEPDB1 "$@"
+}
+
 file="$1"
 
-if [[ -f "$file" ]]; then
 
-    podman exec -i oracle-free sqlplus -s system/"$ORACLE_PWD@FREEPDB1" < "$file"
+if [[ -f "$file" ]]; then
+    sql_basename=$(basename "$file")
+    sqlcl "@/scripts/$sql_basename"
 else
     exec podman exec -it sqlcl sql system/"$ORACLE_PWD@oracle-free:1521/FREEPDB1"
 fi
