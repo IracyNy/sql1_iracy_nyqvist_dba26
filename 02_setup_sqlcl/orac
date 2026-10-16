@@ -7,7 +7,7 @@ source "${script_dir}/../.env"
 
 
 sqlcl(){
-    podman exec -i sqlcl sql system/"$ORACLE_PWD"@//oracle-free:1521/FREEPDB1 "$@"
+    podman exec -i sqlcl sql system/"$ORACLE_PWD"@oracle-free:1521/FREEPDB1 "$@"
 }
 
 file="$1"
