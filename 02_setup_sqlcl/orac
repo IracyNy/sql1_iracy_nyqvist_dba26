@@ -17,6 +17,7 @@ if [[ -f "$file" ]]; then
     sql_basename=$(basename "$file")
     sqlcl "@/scripts/$sql_basename"
 else
-    exec podman exec -it sqlcl sql system/"$ORACLE_PWD@oracle-free:1521/FREEPDB1"
+    sqlcl
+
 fi
 
