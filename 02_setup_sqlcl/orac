@@ -12,10 +12,9 @@ sqlcl(){
 
 file="$1"
 
-
 if [[ -f "$file" ]]; then
-    sql_basename=$(basename "$file")
-    sqlcl "@/scripts/$sql_basename"
+    sql_abs="$(readlink -f "$file")"
+    podman exec -i sqlcl sql system/"$ORACLE_PWD"@oracle-free:1521/FREEPDB1 < "$sql_abs"
 else
     sqlcl
 
