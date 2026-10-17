@@ -22,3 +22,6 @@ tags
 .env
 
 .env
+02_setup_sqlcl/Salaries.csv
+04_load_csv/Salaries.csv
+04_load_csv/smaller_salaries.csv
