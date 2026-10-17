@@ -7,8 +7,28 @@ COMPOSE_DIR="$(dirname $SCRIPT_PATH)"
 case "$1" in 
     start)
         cd "$COMPOSE_DIR" 
-        podman compose up -d oracle-free 
-        echo "starting oracle26ai ...";;
+        podman-compose up -d oracle-free 
+        echo "starting oracle26ai..."
+        echo "wainting for oracle-free to be healthy..."
+        while true; do
+            STATUS=$(podman ps --format '{{.Status}}' --filter "name=oracle-free")
+            if [[ "$STATUS" == *"healthy"* ]]; then
+                echo "oracle-free is healthy"
+                break
+            fi
+            sleep 5
+        done
+        podman rm -f sqlcl 2>/dev/null
+        podman run -d \
+            --name sqlcl \
+            --network 02_setup_sqlcl_default \
+            -e LANG=C.UTF-8 \
+            -e LC_ALL=C.UTF-8 \
+            -v "$COMPOSE_DIR:/scripts:Z" \
+            -it \
+            --entrypoint sql \
+            container-registry.oracle.com/database/sqlcl:latest
+        echo "sqlcl started";;
     stop)
         podman stop sqlcl 2>/dev/null
         podman rm -f sqlcl 2>/dev/null
