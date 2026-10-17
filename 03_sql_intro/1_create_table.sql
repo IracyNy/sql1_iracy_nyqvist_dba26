@@ -4,3 +4,5 @@ category VARCHAR(20) NOT NULL,
 joke VARCHAR(200) NOT NULL,
 rating NUMBER(2) CHECK (rating BETWEEN 1 AND 10)
 );
+
+EXIT
