@@ -7,14 +7,19 @@ source "${script_dir}/../.env"
 
 
 sqlcl(){
-    podman exec -i sqlcl sql system/"$ORACLE_PWD"@oracle-free:1521/FREEPDB1 "$@"
+    podman exec -i -w /scripts sqlcl sql system/"$ORACLE_PWD"@oracle-free:1521/FREEPDB1 "$@"
 }
 
 file="$1"
 
 if [[ -f "$file" ]]; then
     sql_abs="$(readlink -f "$file")"
-    podman exec -i sqlcl sql system/"$ORACLE_PWD"@oracle-free:1521/FREEPDB1 < "$sql_abs"
+    sql_name="$(basename "$sql_abs")"
+    # Kopiera filen till containerns /scripts/ så SQLcl hittar den
+    podman cp "$sql_abs" sqlcl:/scripts/"$sql_name"
+    
+    # Kör filen från /scripts/ (där även CSV-filer ligger)
+    sqlcl "@/scripts/$sql_name"
 else
     sqlcl
 
