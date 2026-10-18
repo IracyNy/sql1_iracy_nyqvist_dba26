@@ -25,3 +25,5 @@ tags
 02_setup_sqlcl/Salaries.csv
 04_load_csv/Salaries.csv
 04_load_csv/smaller_salaries.csv
+02_setup_sqlcl/Amazon 2_Raw.xlsx
+05_filtering/Amazon 2_Raw.xlsx
