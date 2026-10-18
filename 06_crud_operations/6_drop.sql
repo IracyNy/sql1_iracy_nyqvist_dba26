@@ -1,0 +1,5 @@
+DROP TABLE students;
+
+COMMIT;
+
+
